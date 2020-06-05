@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AsyncPlayground.Interfaces;
 using Autofac;
-using WindowCalculator;
-using WindowCalculator.Interfaces;
+using FileGenerator;
+using FileGenerator.Interfaces;
 
 namespace AsyncPlayground
 {

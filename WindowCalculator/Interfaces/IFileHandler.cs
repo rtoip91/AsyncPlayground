@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WindowCalculator.Interfaces
+namespace FileGenerator.Interfaces
 {
     public interface IFileHandler
     {

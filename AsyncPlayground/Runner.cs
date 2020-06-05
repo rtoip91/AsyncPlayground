@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AsyncPlayground.Interfaces;
-using WindowCalculator.Interfaces;
+using FileGenerator.Interfaces;
 
 namespace AsyncPlayground
 {

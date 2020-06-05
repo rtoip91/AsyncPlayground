@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using WindowCalculator.Interfaces;
+using FileGenerator.Interfaces;
 
-namespace WindowCalculator
+namespace FileGenerator
 {
     public class FileHandler : IFileHandler
     {
