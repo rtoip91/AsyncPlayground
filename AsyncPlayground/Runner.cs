@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AsyncPlayground.Interfaces;
@@ -41,22 +42,36 @@ namespace AsyncPlayground
             {
                 throw new Exception("Wrong value !");
             }
-
             Console.WriteLine();
+
+            IList<Task> tasks = new List<Task>();
+            tasks.Add(First(text, amount));
+            tasks.Add(Second(text, amount));
+            await Task.WhenAll(tasks);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadKey();
+        }
+
+        private async Task Second(string text, ulong amount)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Second started");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            await _fileHandler.WriteToFileWithSeparateTask(text, amount);
+            long milliseconds = stopwatch.ElapsedMilliseconds;
+            Console.WriteLine($"Write to file with tasks has been finished ! It took {milliseconds} ms to finish");
+        }
+
+        private async Task First(string text, ulong amount)
+        { 
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("First started");
             Stopwatch stopwatch = Stopwatch.StartNew();
             await _fileHandler.WriteToFile(text, amount);
             long milliseconds = stopwatch.ElapsedMilliseconds;
-            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"Write to file has been finished ! It took {milliseconds} ms to finish");
             Console.WriteLine();
-
-            stopwatch = Stopwatch.StartNew();
-            await _fileHandler.WriteToFileWithSeparateTask(text, amount);
-            milliseconds = stopwatch.ElapsedMilliseconds;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Write to file with tasks has been finished ! It took {milliseconds} ms to finish");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.ReadKey();
         }
 
         #endregion
