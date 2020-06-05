@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPlayground", "AsyncPlayground\AsyncPlayground.csproj", "{8CD8F709-8928-442D-90B2-30F785770966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncPlayground", "AsyncPlayground\AsyncPlayground.csproj", "{8CD8F709-8928-442D-90B2-30F785770966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowCalculator", "WindowCalculator\WindowCalculator.csproj", "{7642EE35-85C7-4496-BD61-D0BE21843428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileGenerator", "WindowCalculator\FileGenerator.csproj", "{7642EE35-85C7-4496-BD61-D0BE21843428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
