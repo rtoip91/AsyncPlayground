@@ -3,66 +3,60 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using WindowCalculator.Interfaces;
+using FileGenerator.Interfaces;
 
-namespace WindowCalculator
+namespace FileGenerator
 {
     public class FileHandler : IFileHandler
     {
-        private readonly string filePath;
-        private readonly ulong amount;
+        private readonly string _filePath;
 
-        public FileHandler(string path, ulong repetetionAmount)
+        public FileHandler(string path)
         {
-            filePath = path;
-            amount = repetetionAmount;
+            _filePath = path;
         }
 
-        public async Task WriteToFile (string content)
+        public async Task WriteToFile (string content, ulong amount)
         {
-            if(string.IsNullOrEmpty(filePath))
+            if(string.IsNullOrEmpty(_filePath))
             {
                 throw new Exception("File path cannot be empty");
             }
 
-            if(File.Exists(filePath))
+            if(File.Exists(_filePath))
             {
-                File.Delete(filePath);
+                File.Delete(_filePath);
             }
-              
-            using (FileStream fileStream = File.Create(filePath))
+
+            await using FileStream fileStream = File.Create(_filePath);
+            for (ulong i = 0; i < amount; i++)
             {
-                for (ulong i = 0; i < amount; i++)
-                {
-                    await AddText(fileStream, content);                    
-                }
+                await AddText(fileStream, content);
             }
         }
 
-        public async Task WriteToFileWithSeparateTask(string content)
+        public async Task WriteToFileWithSeparateTask(string content, ulong amount)
         {
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(_filePath))
             {
                 throw new Exception("File path cannot be empty");
             }
 
-            if (File.Exists(filePath))
+            if (File.Exists(_filePath))
             {
-                File.Delete(filePath);
+                File.Delete(_filePath);
             }
 
-            using (FileStream fileStream = File.Create(filePath))
+            await using FileStream fileStream = File.Create(_filePath);
+            IList<Task> tasks = new List<Task>();
+
+            for (ulong i = 0; i < amount; i++)
             {
-                 IList<Task> tasks = new List<Task>();              
-
-                for (ulong i = 0; i < amount; i++)
-                {
-                    Task tasak = AddText(fileStream, content);
-                    tasks.Add(tasak);
-                }
-
-                await Task.WhenAll(tasks);
+                Task task = AddText(fileStream, content);
+                tasks.Add(task);
             }
+
+            await Task.WhenAll(tasks);
         }
 
         private async Task AddText(FileStream fileStream, string value)
