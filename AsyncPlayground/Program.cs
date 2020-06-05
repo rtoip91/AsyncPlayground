@@ -1,36 +1,41 @@
-﻿using System;
-using System.Diagnostics;
+﻿using AsyncPlayground.Interfaces;
+using Autofac;
+using System;
 using System.Threading.Tasks;
 using WindowCalculator;
+using WindowCalculator.Interfaces;
 
 namespace AsyncPlayground
 {
     class Program
     {
+        private static IContainer Container { get; set; }
+      
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            StringGenerator stringGenerator = new StringGenerator();
-            FileHandler fileHandler = new FileHandler(@"D:\MyTest.txt",100000);
-
+            RegisterContainer();
             try
             {
-                string a = await stringGenerator.Generate();
-                Console.WriteLine("Text generate has been sccesfull");
-                Stopwatch stopwatch = Stopwatch.StartNew();
-                await fileHandler.WriteToFile(a);
-                long miliseconds = stopwatch.ElapsedMilliseconds;
-                Console.WriteLine($"Write to file has been finished ! I took {miliseconds} ms to finish");
+                using (var scope = Container.BeginLifetimeScope())
+                {
+                    IRunner runner = scope.Resolve<IRunner>();
+                    await runner.Run();
+                }
             }
 
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-          
-           
-
-
+        }
+        
+        private static void RegisterContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.Register(r => new FileHandler(@"D:\MyTest.txt", 700000)).As<IFileHandler>();
+            builder.RegisterType<StringGenerator>().As<IStringGenerator>();
+            builder.RegisterType<Runner>().As<IRunner>();
+            Container = builder.Build();
         }
     }
 }

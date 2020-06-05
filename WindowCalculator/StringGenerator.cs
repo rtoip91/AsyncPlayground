@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WindowCalculator.Interfaces;
 
 namespace WindowCalculator
 {
-    public class StringGenerator
+    public class StringGenerator : IStringGenerator
     {
-        public async Task<string> Generate ()
+        public async Task<string> Generate()
         {
             string a = await GenerateString();
             return a;
         }
 
-
-        private Task<string> GenerateString ()
+        private Task<string> GenerateString()
         {
             return Task<string>.Run(() =>
            {

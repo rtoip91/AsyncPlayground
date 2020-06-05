@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using WindowCalculator.Interfaces;
 
 namespace WindowCalculator
 {
-    public class FileHandler
+    public class FileHandler : IFileHandler
     {
-
         private readonly string filePath;
         private readonly ulong amount;
 
@@ -28,16 +29,40 @@ namespace WindowCalculator
             {
                 File.Delete(filePath);
             }
-
-
+              
             using (FileStream fileStream = File.Create(filePath))
             {
                 for (ulong i = 0; i < amount; i++)
                 {
-                    await AddText(fileStream, content);
+                    await AddText(fileStream, content);                    
                 }
-            }           
+            }
+        }
 
+        public async Task WriteToFileWithSeparateTask(string content)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new Exception("File path cannot be empty");
+            }
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            using (FileStream fileStream = File.Create(filePath))
+            {
+                 IList<Task> tasks = new List<Task>();              
+
+                for (ulong i = 0; i < amount; i++)
+                {
+                    Task tasak = AddText(fileStream, content);
+                    tasks.Add(tasak);
+                }
+
+                await Task.WhenAll(tasks);
+            }
         }
 
         private async Task AddText(FileStream fileStream, string value)
