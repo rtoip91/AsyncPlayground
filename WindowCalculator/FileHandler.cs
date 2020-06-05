@@ -9,45 +9,45 @@ namespace FileGenerator
 {
     public class FileHandler : IFileHandler
     {
-        private readonly string _filePath;
+       
 
-        public FileHandler(string path)
+        public FileHandler()
         {
-            _filePath = path;
+          
         }
 
-        public async Task WriteToFile (string content, ulong amount)
+        public async Task WriteToFile (string content,string path, ulong amount)
         {
-            if(string.IsNullOrEmpty(_filePath))
+            if(string.IsNullOrEmpty(path))
             {
                 throw new Exception("File path cannot be empty");
             }
 
-            if(File.Exists(_filePath))
+            if(File.Exists(path))
             {
-                File.Delete(_filePath);
+                File.Delete(path);
             }
 
-            await using FileStream fileStream = File.Create(_filePath);
+            await using FileStream fileStream = File.Create(path);
             for (ulong i = 0; i < amount; i++)
             {
                 await AddText(fileStream, content);
             }
         }
 
-        public async Task WriteToFileWithSeparateTask(string content, ulong amount)
+        public async Task WriteToFileWithSeparateTask(string content, string path, ulong amount)
         {
-            if (string.IsNullOrEmpty(_filePath))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new Exception("File path cannot be empty");
             }
 
-            if (File.Exists(_filePath))
+            if (File.Exists(path))
             {
-                File.Delete(_filePath);
+                File.Delete(path);
             }
 
-            await using FileStream fileStream = File.Create(_filePath);
+            await using FileStream fileStream = File.Create(path);
             IList<Task> tasks = new List<Task>();
 
             for (ulong i = 0; i < amount; i++)

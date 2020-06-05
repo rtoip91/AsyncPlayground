@@ -37,7 +37,7 @@ namespace AsyncPlayground
         private static void RegisterContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.Register(r => new FileHandler(@"C:\MyTest.txt")).As<IFileHandler>();
+            builder.RegisterType<FileHandler>().As<IFileHandler>();
             builder.RegisterType<StringGenerator>().As<IStringGenerator>();
             builder.RegisterType<Runner>().As<IRunner>();
             Container = builder.Build();

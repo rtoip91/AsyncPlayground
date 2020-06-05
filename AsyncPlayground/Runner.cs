@@ -58,7 +58,7 @@ namespace AsyncPlayground
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Second started");
             Stopwatch stopwatch = Stopwatch.StartNew();
-            await _fileHandler.WriteToFileWithSeparateTask(text, amount);
+            await _fileHandler.WriteToFileWithSeparateTask(text, @"D:/test2.txt", amount);
             long milliseconds = stopwatch.ElapsedMilliseconds;
             Console.WriteLine($"Write to file with tasks has been finished ! It took {milliseconds} ms to finish");
         }
@@ -68,7 +68,7 @@ namespace AsyncPlayground
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("First started");
             Stopwatch stopwatch = Stopwatch.StartNew();
-            await _fileHandler.WriteToFile(text, amount);
+            await _fileHandler.WriteToFile(text, @"D:/test1.txt", amount);
             long milliseconds = stopwatch.ElapsedMilliseconds;
             Console.WriteLine($"Write to file has been finished ! It took {milliseconds} ms to finish");
             Console.WriteLine();
